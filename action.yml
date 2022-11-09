@@ -29,6 +29,7 @@ runs:
 
     - name: Update image value
       run: |
+        cd service-image-update-checkout
         yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' ${{ inputs.target-path }}
       shell: bash        
     - name: Commit version file
