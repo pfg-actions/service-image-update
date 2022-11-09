@@ -20,6 +20,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Git Config
+      run: |
+        git config --global url.https://${{ inputs.gh-user }}:${{ inputs.gh-token }}@github.com/.insteadOf https://github.com/
+      shell: bash
     - name: Checkout deployments repository
       uses: actions/checkout@v2
       with:
