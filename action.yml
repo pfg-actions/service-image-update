@@ -3,9 +3,6 @@ description: 'Update service image actions'
 inputs:
   service:
     required: true
-  gh-user:
-    description: 'GitHub User'
-    required: true
   gh-token:
     description: 'GitHub Token'
     required: true
@@ -39,6 +36,6 @@ runs:
         git config --global user.email "github-actions@github.com"
         git config --global user.name "github-actions"
         git add ${{ inputs.target-path }}
-        git commit -am "github-actions: update image tag ${{ inputs.image-version }} for service ${{ inputs.service }} "
+        git commit -am "update version ${{ inputs.image-version }} for service ${{ inputs.service }} "
         git push -u origin main
       shell: bash
