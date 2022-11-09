@@ -1,0 +1,42 @@
+name: 'Update service image actions'
+description: 'Update service image actions'
+inputs:
+  service:
+    required: true
+  gh-user:
+    description: 'GitHub User'
+    required: true
+  gh-token:
+    description: 'GitHub Token'
+    required: true
+  deployments-repository:
+    required: true
+  target-path:
+    required: true
+  yq-image-path:
+    required: true
+  image-version:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout deployments repository
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ inputs.deployments-repository }}
+        ref: main
+        path: service-image-update-checkout
+
+    - name: Update image value
+      run: |
+        yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' ${{ inputs.target-path }}
+      shell: bash        
+    - name: Commit version file
+      run: |
+        cd service-image-update-checkout
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "github-actions"
+        git add ${{ inputs.target-path }}
+        git commit -am "github-actions: update image tag ${{ inputs.image-version }} for service ${{ inputs.service }} "
+        git push -u origin main
+      shell: bash
