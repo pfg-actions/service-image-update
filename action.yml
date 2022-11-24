@@ -20,6 +20,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: time sleep $((RANDOM % 20))
+      shell: bash
     - name: Checkout deployments repository
       uses: actions/checkout@v3
       with:
