@@ -41,6 +41,6 @@ runs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         git add ${{ inputs.target-path }}
-        git commit -am "update version ${{ inputs.image-version }} for service ${{ inputs.service }} " -m "${{ inputs.commit-message }}" || true
+        git commit -am "update version ${{ inputs.image-version }} for service ${{ inputs.service }} "
         git push -u origin main
       shell: bash
