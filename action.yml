@@ -37,6 +37,7 @@ runs:
         if [[ "${{ inputs.target-path }}" =~ ^casino-*/dev/values-version.yaml$ ]]; then
           STAGING_PATH="${{ inputs.target-path }}"
           STAGING_PATH="${STAGING_PATH/dev/staging}"
+          echo "STAGING_PATH ${STAGING_PATH}"
           yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' "$STAGING_PATH"
         fi
       shell: bash        
