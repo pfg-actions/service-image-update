@@ -34,10 +34,9 @@ runs:
       run: |
         cd service-image-update-checkout
         yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' ${{ inputs.target-path }}
-        if [[ "${{ inputs.target-path }}" =~ ^casino-*/dev/values-version.yaml$ ]]; then
+        if [[ "${{ inputs.target-path }}" =~ ^casino-.*/dev/values-version.yaml$ ]]; then
           STAGING_PATH="${{ inputs.target-path }}"
           STAGING_PATH="${STAGING_PATH/dev/staging}"
-          echo "STAGING_PATH ${STAGING_PATH}"
           yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' "$STAGING_PATH"
         fi
       shell: bash        
@@ -47,7 +46,7 @@ runs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         git add ${{ inputs.target-path }}
-        if [[ "${{ inputs.target-path }}" =~ ^casino-*/dev/values-version.yaml$ ]]; then
+        if [[ "${{ inputs.target-path }}" =~ ^casino-.*/dev/values-version.yaml$ ]]; then
           STAGING_PATH="${{ inputs.target-path }}"
           STAGING_PATH="${STAGING_PATH/dev/staging}"
           git add "$STAGING_PATH"
