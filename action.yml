@@ -34,11 +34,6 @@ runs:
       run: |
         cd service-image-update-checkout
         yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' ${{ inputs.target-path }}
-        if [[ "${{ inputs.target-path }}" =~ ^casino-.*/dev/values-version.yaml$ ]]; then
-          STAGING_PATH="${{ inputs.target-path }}"
-          STAGING_PATH="${STAGING_PATH/dev/staging}"
-          yq -i '${{ inputs.yq-image-path }}="${{ inputs.image-version }}"' "$STAGING_PATH"
-        fi
       shell: bash        
     - name: Commit version file
       run: |
@@ -46,11 +41,6 @@ runs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         git add ${{ inputs.target-path }}
-        if [[ "${{ inputs.target-path }}" =~ ^casino-.*/dev/values-version.yaml$ ]]; then
-          STAGING_PATH="${{ inputs.target-path }}"
-          STAGING_PATH="${STAGING_PATH/dev/staging}"
-          git add "$STAGING_PATH"
-        fi
         git commit -am "update version ${{ inputs.image-version }} for service ${{ inputs.service }} " || true
         git push -u origin main
       shell: bash
